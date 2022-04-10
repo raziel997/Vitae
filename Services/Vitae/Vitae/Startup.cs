@@ -11,11 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vitae.Models;
 
 namespace Vitae
 {
     public class Startup
     {
+        readonly string Cors = "Cors";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,12 +28,23 @@ namespace Vitae
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(option =>
+            {
+                option.AddPolicy(name: Cors, builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
 
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vitae", Version = "v1" });
             });
+            services.Configure<DBConnectionModel>(Configuration.GetSection("ConnectionString"));
+            services.AddScoped<vitaeContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +60,8 @@ namespace Vitae
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(Cors);
 
             app.UseAuthorization();
 
