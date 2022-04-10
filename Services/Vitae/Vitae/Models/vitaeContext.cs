@@ -54,7 +54,7 @@ namespace Vitae.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Ciry)
+                entity.Property(e => e.City)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

@@ -9,7 +9,7 @@ namespace Vitae.Models
     {
         public string Oid { get; set; }
         public string LineAddress { get; set; }
-        public string Ciry { get; set; }
+        public string City { get; set; }
         public string ZipCode { get; set; }
     }
 }
