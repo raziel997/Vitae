@@ -1,27 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using Vitae.Helpers.Crypto;
+using Vitae.Models;
 using Vitae.ViewModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Vitae.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+    private vitaeContext _dBContext;
+
+        public UserController(vitaeContext dBContext)
         {
-            return new string[] { "value1", "value2" };
+            _dBContext = dBContext;
+        }
+
+        // GET: api/<UserController>
+        [HttpGet("{name}")]
+        public IActionResult Get(string name)
+        {
+            return Ok($"Estamos Listos {name}");
         }
 
         // POST api/<UserController>
         [HttpPost("login")]
         public IActionResult Auth([FromBody] AuthViewModel value)
         {
-            return Ok("Correcto");
+
+            var user = _dBContext.Users.Where(w => w.Username == value.UserName
+            && w.Password == Encrypt.GetSHA256(value.Password));
+            return Ok(user);
         }
     }
 }
