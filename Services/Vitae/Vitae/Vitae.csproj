@@ -17,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="ViewModel\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
