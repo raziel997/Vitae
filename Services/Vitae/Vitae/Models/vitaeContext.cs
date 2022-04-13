@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 #nullable disable
@@ -9,24 +7,28 @@ namespace Vitae.Models
 {
     public partial class vitaeContext : DbContext
     {
-        public DBConnectionModel _connectionString { get; }
+        public DBConnectionModel _connectionString { get; set; }
+
         public vitaeContext()
         {
         }
 
-        public vitaeContext(DbContextOptions<vitaeContext> options,IOptions<DBConnectionModel> connectionString)
+        public vitaeContext(DbContextOptions<vitaeContext> options)
             : base(options)
+        {
+        }
+        public vitaeContext(IOptions<DBConnectionModel> connectionString)
         {
             _connectionString = connectionString.Value;
         }
-        
+
 
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Education> Educations { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
-        public virtual DbSet<PersonnelDatum> PersonnelData { get; set; }
+        public virtual DbSet<PersonnelData> PersonnelData { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -147,7 +149,7 @@ namespace Vitae.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<PersonnelDatum>(entity =>
+            modelBuilder.Entity<PersonnelData>(entity =>
             {
                 entity.HasKey(e => e.Oid)
                     .HasName("PK_PersonalData");

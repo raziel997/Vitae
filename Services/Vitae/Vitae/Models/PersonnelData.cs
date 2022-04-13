@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Vitae.Models
 {
-    public partial class PersonnelDatum
+    public partial class PersonnelData
     {
         public string Oid { get; set; }
         public string FirstName { get; set; }

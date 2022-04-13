@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,6 +10,12 @@ using Vitae.Helpers.Crypto;
 using Vitae.Helpers.Repository;
 using Vitae.Models;
 using Vitae.Models.Common;
+=======
+using System.Collections.Generic;
+using System.Linq;
+using Vitae.Helpers.Crypto;
+using Vitae.Models;
+>>>>>>> e4a3c1f3c5ee043c040d2a2de9a365eaff5effca
 using Vitae.ViewModel;
 using Vitae.ViewModel.Responses;
 
@@ -16,10 +23,12 @@ using Vitae.ViewModel.Responses;
 
 namespace Vitae.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
+<<<<<<< HEAD
         IRepository<User> _repository;
         vitaeContext _context;
         AppSettings _appSettings;
@@ -36,12 +45,27 @@ namespace Vitae.Controllers
         public IActionResult Get()
         {
             return Ok(_repository.Get());
+=======
+    private vitaeContext _dBContext;
+
+        public UserController(vitaeContext dBContext)
+        {
+            _dBContext = dBContext;
+        }
+
+        // GET: api/<UserController>
+        [HttpGet("{name}")]
+        public IActionResult Get(string name)
+        {
+            return Ok($"Estamos Listos {name}");
+>>>>>>> e4a3c1f3c5ee043c040d2a2de9a365eaff5effca
         }
 
         // POST api/<UserController>
         [HttpPost("login")]
         public IActionResult Auth([FromBody] AuthViewModel value)
         {
+<<<<<<< HEAD
             UserResponse userResponse = new();
 
             string EncPwd = Encrypt.GetSHA256(value.Password);
@@ -54,6 +78,12 @@ namespace Vitae.Controllers
             userResponse.Token = GetToken(user);
 
             return Ok("Correcto");
+=======
+
+            var user = _dBContext.Users.Where(w => w.Username == value.UserName
+            && w.Password == Encrypt.GetSHA256(value.Password));
+            return Ok(user);
+>>>>>>> e4a3c1f3c5ee043c040d2a2de9a365eaff5effca
         }
 
         private string GetToken(User usuario)
